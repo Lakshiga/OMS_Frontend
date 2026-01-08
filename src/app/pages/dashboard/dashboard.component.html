@@ -1,0 +1,269 @@
+<div class="dashboard-container">
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="search-bar">
+      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <input type="text" placeholder="Q Search orders, products..." class="search-input">
+    </div>
+    <div class="notifications">
+      <svg class="bell-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon customers">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Total Customers</p>
+        <h3 class="stat-value">{{ stats.totalCustomers | number }}</h3>
+        <div class="stat-change positive">
+          <span>+12%</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M6 2L10 6H7V10H5V6H2L6 2Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon products">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Total Products</p>
+        <h3 class="stat-value">{{ stats.totalProducts | number }}</h3>
+        <div class="stat-change positive">
+          <span>+5%</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M6 2L10 6H7V10H5V6H2L6 2Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon orders">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Total Orders</p>
+        <h3 class="stat-value">{{ stats.totalOrders | number }}</h3>
+        <div class="stat-change positive">
+          <span>+2%</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M6 2L10 6H7V10H5V6H2L6 2Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card highlight">
+      <div class="stat-icon revenue">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Total Revenue</p>
+        <h3 class="stat-value">{{ formatCurrency(stats.totalRevenue) }}</h3>
+        <div class="stat-change positive">
+          <span>+15%</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M6 2L10 6H7V10H5V6H2L6 2Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-row">
+    <!-- Product Sales Overview -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <h3>Product Sales Overview</h3>
+          <p class="chart-subtitle">Monthly performance</p>
+        </div>
+        <select class="chart-select">
+          <option>Last 6 Months</option>
+          <option>Last 12 Months</option>
+        </select>
+      </div>
+      <div class="chart-content">
+        <div class="bar-chart">
+          <div class="bar" *ngFor="let sale of salesOverview; let i = index" 
+               [style.height.%]="(sale.total / getMaxSales()) * 100"
+               [class.highlight-bar]="i === salesOverview.length - 1">
+            <span class="bar-value">{{ formatCurrency(sale.total / 1000) }}k</span>
+          </div>
+        </div>
+        <div class="chart-labels">
+          <span *ngFor="let sale of salesOverview">{{ getMonthName(sale.month) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Traffic Source -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <h3>Traffic Source</h3>
+          <p class="chart-subtitle">Distribution by channel</p>
+        </div>
+      </div>
+      <div class="chart-content">
+        <div class="donut-chart">
+          <div class="donut-center">
+            <span class="donut-total">5k</span>
+            <span class="donut-label">Total Visits</span>
+          </div>
+        </div>
+        <div class="traffic-legend">
+          <div class="legend-item">
+            <span class="legend-dot online"></span>
+            <span>Online Orders</span>
+            <span class="legend-percent">45%</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot direct"></span>
+            <span>Direct Sales</span>
+            <span class="legend-percent">30%</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot returning"></span>
+            <span>Returning</span>
+            <span class="legend-percent">25%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Row -->
+  <div class="bottom-row">
+    <!-- Recent Orders -->
+    <div class="table-card">
+      <div class="table-header">
+        <h3>Recent Orders</h3>
+        <a routerLink="/admin/order-history" class="view-all">View All</a>
+      </div>
+      <div class="table-container">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>ORDER ID</th>
+              <th>CUSTOMER</th>
+              <th>DATE</th>
+              <th>STATUS</th>
+              <th>TOTAL AMOUNT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of recentOrders.slice(0, 5)">
+              <td>{{ order.orderNumber }}</td>
+              <td>
+                <div class="customer-cell">
+                  <div class="customer-avatar">{{ order.customerName.charAt(0) }}</div>
+                  <span>{{ order.customerName }}</span>
+                </div>
+              </td>
+              <td>{{ formatDate(order.orderDate) }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+                  {{ order.status }}
+                </span>
+              </td>
+              <td>{{ formatCurrency(order.totalAmount) }}</td>
+            </tr>
+            <tr *ngIf="recentOrders.length === 0">
+              <td colspan="5" class="no-data">No recent orders</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="actions-card">
+      <h3>Quick Actions</h3>
+      <div class="actions-grid">
+        <button routerLink="/admin/orders" class="action-btn primary">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+          <span>Create New Order</span>
+        </button>
+        <button routerLink="/admin/customers" class="action-btn secondary">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+          </svg>
+          <span>Add New Customer</span>
+        </button>
+        <button routerLink="/admin/products" class="action-btn secondary">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          <span>Add New Product</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Password Change Modal -->
+<div class="modal-overlay" *ngIf="showPasswordModal">
+  <div class="modal-content password-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Change Password</h2>
+      <p class="modal-subtitle">Please change your password to continue</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Current Password *</label>
+        <input 
+          type="password" 
+          [(ngModel)]="currentPassword" 
+          placeholder="Enter current password"
+          [disabled]="passwordLoading">
+      </div>
+      <div class="form-group">
+        <label>New Password *</label>
+        <input 
+          type="password" 
+          [(ngModel)]="newPassword" 
+          placeholder="Enter new password"
+          [disabled]="passwordLoading">
+      </div>
+      <div class="form-group">
+        <label>Confirm New Password *</label>
+        <input 
+          type="password" 
+          [(ngModel)]="confirmPassword" 
+          placeholder="Confirm new password"
+          (keyup.enter)="changePassword()"
+          [disabled]="passwordLoading">
+      </div>
+      <p class="error" *ngIf="passwordError">{{ passwordError }}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" (click)="changePassword()" [disabled]="passwordLoading">
+        <span *ngIf="!passwordLoading">Change Password</span>
+        <span *ngIf="passwordLoading">Changing...</span>
+      </button>
+    </div>
+  </div>
+</div>
