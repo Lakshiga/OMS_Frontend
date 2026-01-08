@@ -2,60 +2,57 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export enum ProductStatus {
+  Available = 1,
+  OutOfStock = 2,
+  Discontinued = 3
+}
+
 export interface Product {
-  id: string;
-  name: string;
-  description: string;
+  productId?: number;
+  productName: string;
+  description?: string;
   price: number;
-  stock: number;
-  imageUrl: string;
-  category: string;
-  sku: string;
-  createdAt: string;
-  updatedAt: string;
+  quantity: number;
+  productStatus: ProductStatus;
+  createdAt?: string;
+  updatedAt?: string | null;
+  isDeleted?: boolean;
 }
 
 export interface CreateProductRequest {
-  name: string;
-  description: string;
+  productName: string;
+  description?: string;
   price: number;
-  stock: number;
-  imageUrl: string;
-  category: string;
-  sku: string;
+  quantity: number;
+  productStatus: ProductStatus;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:5206/api/products';
+  private apiUrl = 'https://localhost:7151/api/Product';
 
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}`);
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
-  getProductById(id: string): Observable<Product> {
+  getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
   createProduct(request: CreateProductRequest): Observable<Product> {
-    return this.http.post<Product>(`${this.apiUrl}`, request);
+    return this.http.post<Product>(this.apiUrl, request);
   }
 
-  updateProduct(id: string, request: Partial<CreateProductRequest>): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, request);
+  updateProduct(id: number, product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
   }
 
-  deleteProduct(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
-
-  searchProducts(query: string): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/search`, {
-      params: { q: query }
-    });
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }
