@@ -1,0 +1,230 @@
+<div class="customers-container">
+  <!-- Header -->
+  <div class="header">
+    <h2>Customer Management</h2>
+    <button class="btn btn-primary" (click)="openAddModal()" [disabled]="isLoading">
+      <span>+</span> Add New Customer
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-error">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading && customers.length === 0" class="loading">
+    <p>Loading customers...</p>
+  </div>
+
+  <!-- Customer List Table -->
+  <div *ngIf="!isLoading || customers.length > 0" class="table-container">
+    <table class="customers-table">
+      <thead>
+        <tr>
+          <th>Customer Code</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Created Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="customers.length === 0">
+          <td colspan="7" class="no-data">No customers found. Click "Add New Customer" to create one.</td>
+        </tr>
+        <tr *ngFor="let customer of customers">
+          <td>{{ customer.customerCode }}</td>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.email || '-' }}</td>
+          <td>{{ customer.phone || '-' }}</td>
+          <td>{{ customer.address || '-' }}</td>
+          <td>{{ formatDate(customer.createdAt) }}</td>
+          <td class="actions">
+            <button class="btn btn-edit" (click)="openEditModal(customer)" [disabled]="isLoading">
+              Edit
+            </button>
+            <button class="btn btn-delete" (click)="openDeleteModal(customer)" [disabled]="isLoading">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add Customer Modal -->
+  <div *ngIf="showAddModal" class="modal-overlay" (click)="closeModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Add New Customer</h3>
+        <button class="close-btn" (click)="closeModals()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="createCustomer()">
+          <div class="form-group">
+            <label for="add-customerCode">Customer Code <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="add-customerCode" 
+              [(ngModel)]="customerForm.customerCode" 
+              name="customerCode"
+              required
+              placeholder="Enter customer code"
+            />
+          </div>
+          <div class="form-group">
+            <label for="add-name">Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="add-name" 
+              [(ngModel)]="customerForm.name" 
+              name="name"
+              required
+              placeholder="Enter customer name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="add-email">Email</label>
+            <input 
+              type="email" 
+              id="add-email" 
+              [(ngModel)]="customerForm.email" 
+              name="email"
+              placeholder="Enter email address"
+            />
+          </div>
+          <div class="form-group">
+            <label for="add-phone">Phone</label>
+            <input 
+              type="text" 
+              id="add-phone" 
+              [(ngModel)]="customerForm.phone" 
+              name="phone"
+              placeholder="Enter phone number"
+            />
+          </div>
+          <div class="form-group">
+            <label for="add-address">Address</label>
+            <textarea 
+              id="add-address" 
+              [(ngModel)]="customerForm.address" 
+              name="address"
+              rows="3"
+              placeholder="Enter address"
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModals()" [disabled]="isLoading">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+              {{ isLoading ? 'Creating...' : 'Create Customer' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Customer Modal -->
+  <div *ngIf="showEditModal" class="modal-overlay" (click)="closeModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Edit Customer</h3>
+        <button class="close-btn" (click)="closeModals()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="updateCustomer()">
+          <div class="form-group">
+            <label for="edit-customerCode">Customer Code <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="edit-customerCode" 
+              [(ngModel)]="customerForm.customerCode" 
+              name="customerCode"
+              required
+              placeholder="Enter customer code"
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-name">Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="edit-name" 
+              [(ngModel)]="customerForm.name" 
+              name="name"
+              required
+              placeholder="Enter customer name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-email">Email</label>
+            <input 
+              type="email" 
+              id="edit-email" 
+              [(ngModel)]="customerForm.email" 
+              name="email"
+              placeholder="Enter email address"
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-phone">Phone</label>
+            <input 
+              type="text" 
+              id="edit-phone" 
+              [(ngModel)]="customerForm.phone" 
+              name="phone"
+              placeholder="Enter phone number"
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-address">Address</label>
+            <textarea 
+              id="edit-address" 
+              [(ngModel)]="customerForm.address" 
+              name="address"
+              rows="3"
+              placeholder="Enter address"
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModals()" [disabled]="isLoading">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+              {{ isLoading ? 'Updating...' : 'Update Customer' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div *ngIf="showDeleteModal" class="modal-overlay" (click)="closeModals()">
+    <div class="modal-content modal-small" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Delete Customer</h3>
+        <button class="close-btn" (click)="closeModals()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete customer <strong>{{ selectedCustomer?.name }}</strong> ({{ selectedCustomer?.customerCode }})?</p>
+        <p class="warning-text">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModals()" [disabled]="isLoading">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-delete" (click)="deleteCustomer()" [disabled]="isLoading">
+          {{ isLoading ? 'Deleting...' : 'Delete' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
