@@ -1,0 +1,28 @@
+<div class="login-wrapper">
+
+  <h2>OMS Login</h2>
+  <p class="subtitle">Sign in to your account</p>
+
+  <input
+    type="email"
+    placeholder="Email"
+    [(ngModel)]="email"
+    [disabled]="isLoading">
+
+  <input
+    type="password"
+    placeholder="Password"
+    [(ngModel)]="password"
+    (keyup.enter)="login()"
+    [disabled]="isLoading">
+
+  <button (click)="login()" [disabled]="isLoading">
+    <span *ngIf="!isLoading">Login</span>
+    <span *ngIf="isLoading">Logging in...</span>
+  </button>
+
+  <a routerLink="/reset-password" class="forgot-password">Forgot Password?</a>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+</div>
