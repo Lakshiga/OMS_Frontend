@@ -1,6 +1,6 @@
 export interface Customer {
   id: number;
-  customerCode: string;
+  CustomerCode: string;
   name: string;
   email?: string;
   phone?: string;
@@ -10,7 +10,7 @@ export interface Customer {
 }
 
 export interface CustomerRequest {
-  customerCode: string;
+  CustomerCode: string;
   name: string;
   email?: string;
   phone?: string;
