@@ -32,7 +32,7 @@ export interface CreateProductRequest {
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'https://localhost:7151/api/Product';
+  private apiUrl = 'http://localhost:5206/api/Product'; // Using HTTP to avoid SSL certificate issues
 
   constructor(private http: HttpClient) {}
 

@@ -149,7 +149,6 @@ export class ProductComponent implements OnInit {
       };
 
       console.log('Creating product:', createRequest);
-      console.log('API URL:', 'https://localhost:7212/api/Product');
       
       this.productService.createProduct(createRequest)
         .subscribe({
@@ -161,7 +160,19 @@ export class ProductComponent implements OnInit {
           error: (error) => {
             console.error('Error creating product:', error);
             console.error('Full error:', JSON.stringify(error, null, 2));
-            const errorMessage = error.error?.message || error.message || error.statusText || 'Unknown error';
+            
+            let errorMessage = 'Unknown error';
+            
+            if (error.status === 0) {
+              errorMessage = 'Connection failed. Please check:\n1. Backend server is running\n2. CORS is configured correctly\n3. SSL certificate is trusted (for HTTPS)';
+            } else if (error.error?.message) {
+              errorMessage = error.error.message;
+            } else if (error.message) {
+              errorMessage = error.message;
+            } else if (error.statusText) {
+              errorMessage = error.statusText;
+            }
+            
             alert('Error creating product: ' + errorMessage);
           }
         });
